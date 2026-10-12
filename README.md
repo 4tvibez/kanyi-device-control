@@ -1,6 +1,6 @@
 # KANYI Device Control
 
-A responsive prototype for organizing device labels and finding official recovery resources.
+KANYI is a responsive device-management dashboard with a temporary, consent-based browser pairing demo.
 
 ## Project structure
 
@@ -24,16 +24,24 @@ npm install
 npm start
 ```
 
-Then open http://localhost:3000.
+Open `http://localhost:3000` in a browser.
 
 ## Features
 
-- Responsive dark dashboard
-- Add and remove device labels
-- Saves inventory in this browser with localStorage
-- Official Android, Apple, and Microsoft support links
-- Health endpoint at /health
+- Responsive dashboard and local device inventory
+- Temporary six-digit pairing codes
+- Create a session on one browser and join it from another
+- Pairing sessions expire after 15 minutes
+- End a pairing session from the dashboard
+- Official Android, Apple, and Microsoft recovery links
+- Health endpoint at `/health`
 
-## Limitations and safety
+## Deploying
 
-This is a demo inventory, not a remote-control tool. It does not connect to devices, bypass passcodes, unlock phones, or reset computers. Real remote access requires explicit authorization, secure authentication, and approved software or services on each device. For forgotten passwords, use the device manufacturer's official recovery process.
+Deploy this as a **Node.js web service** on a host that runs the Express server continuously and supports HTTP POST/GET requests. Set the start command to `npm start`. Both devices must open the same deployed URL.
+
+The pairing API currently stores active sessions in server memory. Sessions will be lost when the service restarts, and multiple replicas will not share sessions. A production version should use a shared database or Redis and add stronger authentication, rate limiting, and audit logging. Do not use this prototype for sensitive data.
+
+## Important limitations
+
+Pairing confirms only that two browsers have joined the same temporary session. It does **not** stream screens, remotely control a device, unlock a forgotten passcode, bypass security, or factory-reset a phone or computer. Those capabilities require separate, platform-approved software and explicit on-device permission. Use the manufacturer's official recovery flow for forgotten passwords.
