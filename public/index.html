@@ -14,7 +14,7 @@
       <a class="brand" href="#overview"><span class="brand-icon">K</span><span>KANYI<small>DEVICE CONSOLE</small></span></a>
       <nav aria-label="Main navigation">
         <a class="nav-link active" href="#overview">Overview</a>
-        <a class="nav-link" href="#devices">My devices</a>
+        <a class="nav-link" href="#devices">My devices</a>\n        <a class="nav-link" href="#connect">Connect</a>
         <a class="nav-link" href="#recovery">Recovery help</a>
       </nav>
       <div class="sidebar-status"><span class="dot"></span><span>Demo mode<small>No remote sessions active</small></span></div>
@@ -37,6 +37,34 @@
         <div class="section-title"><div><p class="eyebrow">YOUR INVENTORY</p><h2>My devices</h2></div><button class="button secondary" id="add-device" type="button">＋ Add device</button></div>
         <div class="device-list" id="device-list"><div class="empty"><span class="empty-symbol">⌘</span><h3>No devices added yet</h3><p>Add a label to start your local inventory.</p></div></div>
         <p class="note">This prototype stores device labels locally. It does not connect to, unlock, or control devices.</p>
+      </section>
+      <section class="panel pairing" id="connect">
+        <div class="section-title"><div><p class="eyebrow">CONSENT-BASED CONNECTION</p><h2>Connect another browser</h2></div><span class="pair-badge">PAIRING DEMO</span></div>
+        <p class="muted pairing-intro">Open KANYI on both devices. Create a temporary code on one device, then enter it on the other. Both devices must be online and use the same deployed KANYI server.</p>
+        <div class="pair-grid">
+          <form id="create-pair-form" class="pair-box">
+            <h3>1. Create a code</h3>
+            <label for="pair-owner-name">This device's name</label>
+            <input id="pair-owner-name" maxlength="60" placeholder="e.g. Desmond's phone" required>
+            <button class="button primary" type="submit">Create pairing code</button>
+            <div id="created-code" class="created-code" hidden>
+              <span>Share this code with the other device</span><strong id="pair-code-value">------</strong>
+              <p id="pair-owner-status" class="pair-status">Waiting for the other device…</p>
+              <button class="button secondary" id="copy-pair-code" type="button">Copy code</button>
+            </div>
+          </form>
+          <form id="join-pair-form" class="pair-box">
+            <h3>2. Join with a code</h3>
+            <label for="pair-guest-name">This device's name</label>
+            <input id="pair-guest-name" maxlength="60" placeholder="e.g. My computer" required>
+            <label for="join-code">Six-digit pairing code</label>
+            <input id="join-code" inputmode="numeric" autocomplete="one-time-code" pattern="[0-9]{6}" maxlength="6" placeholder="123456" required>
+            <button class="button secondary" type="submit">Join session</button>
+            <p class="pair-status" id="join-status" aria-live="polite">No session connected.</p>
+          </form>
+        </div>
+        <div class="connection-notice"><strong>Important:</strong> Pairing only confirms that both browsers can see the same temporary session. It does not provide remote screen viewing, device control, password unlocking, or factory reset. Any future control features must require visible consent and platform permissions.</div>
+        <button class="button secondary" id="leave-pair" type="button" hidden>End pairing session</button>
       </section>
       <section class="panel recovery" id="recovery">
         <div><p class="eyebrow">LOCKED OUT?</p><h2>Trusted recovery resources</h2><p class="muted">For devices you own, use the manufacturer's official recovery guidance. KANYI cannot bypass passcodes or security locks.</p></div>
