@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#07111f">
+<title>KANYI — Secure Support</title>
+<style>
+:root{color-scheme:dark;--bg:#07111f;--panel:#0d1a2b;--line:#20354e;--text:#edf5ff;--muted:#8da2bc;--cyan:#6df2df;--blue:#76a8ff;--red:#ff8c9b;--green:#80edb5}*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at 70% -10%,#193653 0,transparent 44%),var(--bg);color:var(--text);font:14px/1.5 system-ui,-apple-system,sans-serif;min-height:100vh}.wrap{max-width:1120px;margin:auto;padding:24px}.top{display:flex;align-items:center;justify-content:space-between;gap:16px;border-bottom:1px solid var(--line);padding:0 0 20px}.brand{display:flex;align-items:center;gap:12px}.mark{display:grid;place-items:center;width:42px;height:42px;border-radius:13px;background:linear-gradient(145deg,var(--cyan),var(--blue));color:#06131d;font-weight:950;font-size:22px}.brand b{display:block;letter-spacing:2px}.brand small{color:var(--muted);font-size:10px;letter-spacing:1.5px}.pill{border:1px solid #2a4a5d;background:#102437;color:var(--cyan);padding:7px 11px;border-radius:30px;font-size:11px}.hero{padding:38px 0 26px}.eyebrow{font-size:10px;letter-spacing:2px;color:var(--cyan);font-weight:800}.hero h1{font-size:clamp(30px,5vw,48px);letter-spacing:-1.7px;line-height:1.08;margin:12px 0}.hero p{color:var(--muted);max-width:670px}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}.panel{background:linear-gradient(145deg,#101f32,#0b1726);border:1px solid var(--line);border-radius:17px;padding:22px;min-width:0}.panel h2{font-size:16px;margin:0 0 6px}.panel>p{font-size:12px;color:var(--muted);margin:0 0 18px}.field{display:grid;gap:7px;margin:14px 0}.field label{font-size:11px;color:#b6c8dd}.field input{width:100%;min-width:0;background:#071321;border:1px solid #2b4058;color:var(--text);border-radius:10px;padding:13px;outline:none}.field input:focus{border-color:var(--cyan)}button,.btn{border:1px solid var(--line);border-radius:10px;background:#132238;color:var(--text);padding:11px 14px;font:700 12px system-ui;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;justify-content:center;gap:8px}button.primary,.primary{background:var(--cyan);color:#06131d;border-color:var(--cyan)}button.danger{color:var(--red);border-color:#653543;background:#251721}button:disabled{opacity:.45;cursor:not-allowed}.code{font-size:clamp(28px,5vw,42px);font-weight:900;letter-spacing:9px;color:var(--cyan);padding:14px 0}.status{font-size:12px;color:var(--muted);min-height:22px;margin:12px 0}.actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}.screen{margin-top:16px;background:#050c14;border:1px solid #20354e;border-radius:15px;overflow:hidden}.screen-head{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:13px 16px;border-bottom:1px solid #20354e;color:var(--muted);font-size:11px}.screen video{display:block;width:100%;max-height:65vh;min-height:180px;object-fit:contain;background:#02060a}.hidden{display:none!important}.notice{margin-top:16px;padding:14px 16px;border:1px solid #6e5930;background:#241f15;border-radius:12px;color:#d6c6a3;font-size:11px;line-height:1.8}.notice b{color:#f6c56b}.foot{color:#7189a3;text-align:center;font-size:10px;padding:25px 0}.back{color:var(--muted);text-decoration:none;font-size:12px}.back:hover{color:var(--cyan)}@media(max-width:720px){.wrap{padding:17px}.grid{grid-template-columns:1fr}.top{align-items:flex-start}.pill{font-size:10px}.hero{padding-top:28px}.panel{padding:18px}}
+</style>
+</head>
+<body><main class="wrap">
+<header class="top"><div class="brand"><div class="mark">K</div><div><b>KANYI</b><small>SECURE DEVICE SUPPORT</small></div></div><span class="pill">● CONSENT REQUIRED</span></header>
+<section class="hero"><div class="eyebrow">REAL-TIME SUPPORT · WEBRTC</div><h1>Connect with permission.<br>Support with confidence.</h1><p>Create a short-lived support code on the device that will share its screen, then join from the other browser. Screen sharing starts only after the owner chooses a screen or window in the browser's own permission prompt.</p></section>
+<section class="grid">
+<article class="panel"><h2>1. Share this screen</h2><p>Use this on the Android phone or Windows computer whose screen you want to share.</p>
+<div class="field"><label for="owner-name">Device label</label><input id="owner-name" maxlength="60" placeholder="e.g. My Windows PC"></div>
+<button class="primary" id="create">Generate secure pairing code</button>
+<div id="owner-code-wrap" class="hidden"><div class="code" id="owner-code">------</div><button id="copy">Copy code</button></div>
+<div class="status" id="owner-status" role="status">No support session created.</div>
+<div class="actions"><button class="primary" id="start-share" disabled>Start screen sharing</button><button class="danger" id="stop-share" disabled>Stop sharing</button><button id="end-owner" disabled>End session</button></div>
+</article>
+<article class="panel"><h2>2. View a shared screen</h2><p>Use this on the support computer or phone. Enter the code given directly by the device owner.</p>
+<div class="field"><label for="guest-name">Your device label</label><input id="guest-name" maxlength="60" placeholder="e.g. Support laptop"></div>
+<div class="field"><label for="join-code">Six-digit pairing code</label><input id="join-code" inputmode="numeric" autocomplete="one-time-code" maxlength="6" placeholder="000000"></div>
+<button class="primary" id="join">Join support session</button>
+<div class="status" id="guest-status" role="status">Not connected to a support session.</div>
+<div class="actions"><button id="end-guest" disabled>Disconnect</button></div>
+</article>
+</section>
+<section class="screen"><div class="screen-head"><span>LIVE SCREEN PREVIEW</span><span id="screen-state">Waiting for an approved screen share</span></div><video id="remote-video" autoplay playsinline controls></video></section>
+<div class="notice"><b>Important limitations:</b> This first milestone provides consent-based browser screen sharing, not remote mouse/keyboard control, lock-screen unlocking, or access to files. Browser screen capture support varies by device; many Android browsers cannot share the whole device screen through a webpage. For Windows remote control or broader Android support, a separately installed companion app and additional OS permissions are required. Anyone sharing must be able to see and stop the session.</div>
+<div class="foot">KANYI DEVICE CONSOLE · Secure support prototype · Session codes expire after 15 minutes</div>
+</main><script src="/support.js"></script></body></html>
