@@ -11,9 +11,13 @@ const PORT = process.env.PORT || 3000;
 const publicDir = path.join(__dirname, "public");
 const sessions = new Map();
 const peers = new Map();
+const joinAttempts = new Map();
+const JOIN_WINDOW = 10 * 60 * 1000;
+const JOIN_LIMIT = 12;
 const SESSION_TTL = 15 * 60 * 1000;
 
 app.disable("x-powered-by");
+app.set("trust proxy", 1);
 app.use(express.json({ limit: "10kb" }));
 app.use(express.static(publicDir));
 
@@ -74,6 +78,20 @@ app.post("/api/pair/create", (req, res) => {
 });
 app.post("/api/pair/join", (req, res) => {
   cleanExpired();
+  const ip = req.ip || req.socket.remoteAddress || "unknown";
+  const now = Date.now();
+  const recent = (joinAttempts.get(ip) || []).filter(time => now - time < JOIN_WINDOW);
+  if (recent.length >= JOIN_LIMIT) {
+    joinAttempts.set(ip, recent);
+    return res.status(429).json({ ok: false, error: "Too many pairing attempts. Wait a few minutes and try again." });
+  }
+  recent.push(now);
+  joinAttempts.set(ip, recent);
+  if (joinAttempts.size > 2000) {
+    for (const [key, attempts] of joinAttempts) {
+      if (!attempts.length || now - attempts[attempts.length - 1] > JOIN_WINDOW) joinAttempts.delete(key);
+    }
+  }
   const code = String(req.body?.code || "").replace(/\D/g, "").slice(0, 6);
   const deviceName = String(req.body?.deviceName || "Partner device").trim().slice(0, 60);
   const session = sessions.get(code);
