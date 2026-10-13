@@ -1,6 +1,6 @@
-# KANYI Device Control
+# KANYI Device Console
 
-KANYI is a responsive device-management dashboard with a temporary, consent-based browser pairing demo.
+KANYI is a responsive device-management workspace for maintaining a local device inventory, pairing two browsers through a short-lived code, reviewing activity recorded in the current browser, and finding official device-recovery resources.
 
 ## Project structure
 
@@ -24,24 +24,28 @@ npm install
 npm start
 ```
 
-Open `http://localhost:3000` in a browser.
+Open `http://localhost:3000` in a browser. For pairing, open the same deployed URL in both browsers.
 
 ## Features
 
-- Responsive dashboard and local device inventory
-- Temporary six-digit pairing codes
-- Create a session on one browser and join it from another
-- Pairing sessions expire after 15 minutes
-- End a pairing session from the dashboard
-- Official Android, Apple, and Microsoft recovery links
-- Health endpoint at `/health`
+- Responsive, product-style dashboard and navigation
+- Local device inventory with add, view, remove, and JSON export
+- Local activity history
+- Temporary six-digit browser-pairing codes
+- Join a pairing session from a second browser and end a session
+- Service health endpoint at `/health`
+- Official Android, Google Account, Samsung, Apple, Microsoft, and Google Find Hub support links
+- Security center that explains the application's current capabilities and limits
 
-## Deploying
+## Deployment notes
 
-Deploy this as a **Node.js web service** on a host that runs the Express server continuously and supports HTTP POST/GET requests. Set the start command to `npm start`. Both devices must open the same deployed URL.
+Run this as a Node.js web service that supports the Express app and its GET/POST endpoints. The start command is `npm start`.
 
-The pairing API currently stores active sessions in server memory. Sessions will be lost when the service restarts, and multiple replicas will not share sessions. A production version should use a shared database or Redis and add stronger authentication, rate limiting, and audit logging. Do not use this prototype for sensitive data.
+The pairing API stores active sessions in server memory. Sessions are lost on server restart, and separate server replicas do not share them. For reliable production use, replace this with a shared database or Redis, add authentication, rate limiting, request validation, and server-side audit logging, and test deployment health checks.
 
-## Important limitations
+## Data and security limitations
 
-Pairing confirms only that two browsers have joined the same temporary session. It does **not** stream screens, remotely control a device, unlock a forgotten passcode, bypass security, or factory-reset a phone or computer. Those capabilities require separate, platform-approved software and explicit on-device permission. Use the manufacturer's official recovery flow for forgotten passwords.
+- Device inventory and activity history are saved in the current browser's local storage; they are not cloud-synced or tied to an authenticated account.
+- Browser pairing only confirms that two browser sessions joined the same temporary session. It does not stream screens, remotely control a device, unlock a forgotten passcode, bypass security, or factory-reset a phone or computer.
+- A website alone cannot unlock every phone or computer. Use official manufacturer and account-recovery flows for forgotten passwords.
+- Do not store sensitive information in this application.
